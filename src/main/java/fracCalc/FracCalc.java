@@ -94,7 +94,7 @@ public class FracCalc {
         } else {
             newNumerator = (numerator1 * newDenominator / denominator1) - (numerator2 * newDenominator / denominator2);
         }
-        return newNumerator + "/" + newDenominator;
+        return simplify(newNumerator, newDenominator);
     }
     //performs addition or subtraction
     
@@ -122,11 +122,9 @@ public class FracCalc {
             newNumerator = numerator1 * denominator2;
             newDenominator = numerator2 * denominator1;
         }
-        return newNumerator + "/" + newDenominator;
+        return simplify(newNumerator, newDenominator);
     }
     // performs multiplication or division
-
-
 
 
     public static String improperFractions(String input) {
@@ -191,7 +189,44 @@ public class FracCalc {
         
         // returns a boolean if string is valid operation
     }
-
-
+    
+    public static String simplify(int numerator, int denominator) {
+        int gcd = gcd(numerator, denominator);
+        int newDenominator = denominator / gcd;
+        int newNumerator = numerator / gcd;
+        if (newDenominator < 0) {
+            newDenominator *= -1;
+            newNumerator *= -1;
+        }
+        if (newDenominator == 1) {
+            return "" + newNumerator;
+        }
+        if (Math.abs(newDenominator) < Math.abs(newNumerator)) {
+            if (newNumerator < 0) {
+                newNumerator *= -1;
+                return "-" + newNumerator / newDenominator + "_" + newNumerator % newDenominator + "/" + newDenominator;
+            } else {
+                return newNumerator / newDenominator + "_" + newNumerator % newDenominator + "/" + newDenominator;
+            }
+        }
+        return newNumerator + "/" + newDenominator;
+    }
+    // simplify the fraction
+    
+    
+    public static int lcm(int num1, int num2) {
+        return (num1 * num2) / gcd(num1, num2);
+    }
+    // finds the LCM of the numbers
+    
+    public static int gcd(int num1, int num2) {
+        num1 = Math.abs(num1);
+        num2 = Math.abs(num2);
+        if (num1 == 0 || num2 == 0) {
+            return num1 + num2;
+        }
+        return gcd(num2, num1 % num2);
+    }
+    // finds the GCD of numbers
 
 }
